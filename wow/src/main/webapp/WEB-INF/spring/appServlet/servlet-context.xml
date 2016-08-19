@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans classpath:/org/springframework/beans/factory/xml/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd
+		">
+
+	<!-- <mvc:default-servlet-handler/> -->
+
+	<mvc:resources mapping="/**" location="/static/" />
+	<mvc:view-controller path="/" view-name="redirect:/largeScreen/index"/>
+	<mvc:view-controller path="/plat" view-name="redirect:/platformScreen/platformIndex"/>
+	<!-- 如果使用了mvc:resources mapping -->
+	<!-- （导致SpringMVC不再使用默认策略DefaultAnnotationHandlerMapping，而是使用了RequestMappingHandlerMapping这个类），就需要加这个来注册controller -->
+	<mvc:annotation-driven />
+
+	<context:annotation-config />
+	<context:component-scan base-package="com.edreaminfo.colorscreen" />
+	
+	<task:executor id="executor" pool-size="5" />
+	<task:scheduler id="scheduler" pool-size="10" />
+	<task:annotation-driven executor="executor"
+		scheduler="scheduler" />
+
+	<!-- <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<beans:property name="prefix" value="/WEB-INF/views/" /> <beans:property 
+		name="suffix" value=".jsp" /> </beans:bean> -->
+
+	<!-- freemarker -->
+	<beans:bean id="freemarkerConfiguration"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<beans:property name="location" value="classpath:freemarker.properties" />
+	</beans:bean>
+
+	<beans:bean id="freemarkerConfig"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<beans:property name="freemarkerSettings" ref="freemarkerConfiguration" />
+		<beans:property name="templateLoaderPath" value="/WEB-INF/views/" />
+		<beans:property name="freemarkerVariables">
+			<beans:map>
+				<beans:entry key="xml_escape" value-ref="fmXmlEscape" />
+			</beans:map>
+		</beans:property>
+	</beans:bean>
+
+	<beans:bean id="fmXmlEscape" class="freemarker.template.utility.XmlEscape" />
+
+	<beans:bean id="viewResolver"
+		class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<beans:property name="cache" value="true" />
+		<beans:property name="prefix" value="" />
+		<beans:property name="suffix" value=".ftl" />
+		<beans:property name="contentType" value="text/html;charset=UTF-8" />
+		<beans:property name="requestContextAttribute" value="request" /> 
+	</beans:bean>
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <beans:bean id="loginInterceptor" class="com.edreaminfo.colorscreen.interceptor.LoginInterceptor">
+            	<beans:property name="excludedUrls">
+            	<!-- 不需要拦截的页面 -->
+                <beans:list>
+                	<beans:value>/</beans:value>
+                	 <beans:value>/plat</beans:value>
+                	<beans:value>/PlatformScreen/platformIndex</beans:value>
+                	<beans:value>/login/login.jsp</beans:value>
+                    <beans:value>/login/logincheck</beans:value>
+                    <beans:value>/largeScreen/index</beans:value>
+                    <beans:value>/largeScreen/tradeshow</beans:value>
+                    <beans:value>/big_screen_node</beans:value>
+                    <beans:value>largeScreen/getImageList</beans:value>
+                    <beans:value>/big_screen/index</beans:value>
+                    <beans:value>/projectSchedule/projectSchedule</beans:value>
+                    <beans:value>/projectSchedule/debuggingSchedule</beans:value>
+                    <beans:value>/projectSchedule/getProjectScheduleData</beans:value>
+                    <beans:value>/projectSchedule/getDebuggingScheduleData</beans:value>
+                    <beans:value>/errorreturn/jsonerror</beans:value>
+		            <beans:value>.js</beans:value>  
+		            <beans:value>.css</beans:value> 
+		            <beans:value>/img</beans:value> 
+		            <beans:value>/image</beans:value>  
+		            <beans:value>/images</beans:value> 
+                </beans:list>
+           		</beans:property>
+            </beans:bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <beans:bean id="authorityInterceptor" class="com.edreaminfo.colorscreen.interceptor.AuthorityInterceptor">
+            </beans:bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!-- 异常处理 -->
+    <beans:bean id="handlerExceptionResolver"
+	    class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	    <beans:property name="exceptionMappings">
+	        <beans:props>
+	        	<!-- user session为空,跳转到登录页面 -->
+	            <beans:prop key="com.edreaminfo.colorscreen.interceptor.AuthorizationException">redirect:/login.jsp</beans:prop>
+	            <beans:prop key="com.edreaminfo.colorscreen.interceptor.SessionTimeOutException">redirect:/errorreturn/jsonerror</beans:prop>
+	        </beans:props>
+	    </beans:property>
+	</beans:bean>
+	<!-- 图片上传 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	  <beans:property name="defaultEncoding" value="utf-8" />
+	  <beans:property name="maxUploadSize" value="10485760" /><!-- 最大上传文件大小 10M=10*1024*1024 -->
+	</beans:bean>
+	<!-- end of freemarker -->
+</beans:beans>
