@@ -1,4 +1,4 @@
-package com.qycDo.app.wow;
+package com.qycDo.app.wow.test.factoryTest;
 /**
  * 左偏分发型实现
  * @author qiyuanchun

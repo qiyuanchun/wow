@@ -1,4 +1,4 @@
-package com.qycDo.app.wow;
+package com.qycDo.app.wow.test.singletonTest;
 
 public class Singleton {
 
