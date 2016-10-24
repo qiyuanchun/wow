@@ -32,8 +32,9 @@ public class FactoryTest {
 //		HairFactory hairFactory = new HairFactory();
 //		HairInterface hair = hairFactory.getByClassName("com.qycDo.app.wow.RightHair");
 //		hair.draw();
-		File f = new File("src/test/java/com/qycDo/app/wow/type.properties");
-		System.out.println(f.getPath());
+//		File f = new File("src/test/java/com/qycDo/app/wow/type1.properties");
+//		System.out.println(f.getPath());
+//		System.out.println(f.exists());
 		System.out.println(PropertiesFileUtils.getPropertiesValue("src/test/java/com/qycDo/app/wow/type.properties", "left"));
 	}
 	
