@@ -9,7 +9,7 @@
     <url>https://github.com/starzou/quick4j</url>
 
     <build>
-        <finalName>quick4j</finalName>
+        <finalName>wow</finalName>
         <plugins>
             <!-- Mybatis generator代码生成插件 配置 -->
             <plugin>
