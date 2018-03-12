@@ -3,6 +3,7 @@ package com.qycDo.app.wow.test.ioTest;
 
 import org.junit.Test;
 
+
 public class IoTest {
 
 	IWriteFile writeIntoFile = new WriteFile();
@@ -11,6 +12,9 @@ public class IoTest {
 		String content = "HI THIS IS IOTEST";
 		writeIntoFile.writeIntoFile("D:\\ioTestResult2.txt", content);
 	}
-	
-	
+
 }
+
+
+
+

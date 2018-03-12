@@ -18,5 +18,6 @@ public class BeanTest {
 //		logInfo.setList(Arrays.asList(array));
 		System.out.println(logInfo.toLog());*/
 		MethodTest.export();;
-	}
+		System.out.println("this is a test");
+		}
 }
