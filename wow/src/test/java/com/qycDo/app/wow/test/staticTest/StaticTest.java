@@ -4,9 +4,9 @@ import com.qycDo.app.util.BeanUtil;
 
 public class StaticTest {
 
-
+    private  static  String a ="dd";
     static{
-        System.out.println("静态代码块在类加载的时候会执行，一次 ");
+        System.out.println("静态代码块在类加载的时候会执行，一次 "+a);
     }
 
 

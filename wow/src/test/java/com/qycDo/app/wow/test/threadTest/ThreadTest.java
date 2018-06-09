@@ -5,13 +5,14 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class ThreadTest {
 	 private static ReentrantLock lock = new ReentrantLock();
-		static String a = "a";
+		private String a = "a";
+		
 		Runnable r1 = new Runnable() {
 			
 			@Override
 			public void run() {
 				SetValue("r1");
-//				System.out.println("线程1//"+a);
+				System.out.println("线程1//"+a);
 			}
 		};
 		Runnable r2 = new Runnable() {
@@ -19,13 +20,13 @@ public class ThreadTest {
 			@Override
 			public void run() {
 				SetValue("r2");
-//				System.out.println("线程2//"+a);
+				System.out.println("线程2//"+a);
 			}
 		};
 		public void SetValue(String value){
-			lock.lock();
+//			lock.lock();
 			a = value;
-			lock.unlock();
+//			lock.unlock();
 		}
 		
 		public void ThreadMethodTest(){
@@ -34,13 +35,13 @@ public class ThreadTest {
 			thread1.start();
 			thread2.start();
 			//俩个线程start但是并没有分配到时间片
-			System.out.println(a);
+//			System.out.println(a);
 		}
 		
 		public static void main(String[] args) {
 
 
-				for (int i = 0; i < 11; i++) {
+				for (int i = 0; i < 101; i++) {
 					ThreadTest threadTest = new ThreadTest();
 					threadTest.ThreadMethodTest();
 					System.out.println("===============================");	

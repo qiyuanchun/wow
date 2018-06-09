@@ -1,6 +1,5 @@
 package com.qycDo.app.wow.test.ioTest;
 
-import com.sun.tools.doclets.internal.toolkit.util.DocFinder;
 
 import java.io.IOException;
 import java.io.InputStream;

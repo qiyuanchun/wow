@@ -23,6 +23,8 @@
                 </configuration>
             </plugin>
 
+
+
 				<!-- tomcat插件 -->
  			<plugin>
 			         <groupId>org.apache.tomcat.maven</groupId>
@@ -123,6 +125,14 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+        </dependency>
+
+
         <!-- junit -->
         <dependency>
             <groupId>junit</groupId>
@@ -387,6 +397,21 @@
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
-        
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+       <!-- <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.15</version>
+        </dependency>-->
+
     </dependencies>
 </project>
